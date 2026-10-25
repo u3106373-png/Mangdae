@@ -17,26 +17,38 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./MANGDAE_FINAL_GitHub_Pages_Ready
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Node.js
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+
       - name: Build frontend
         run: npm run build
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./MANGDAE_FINAL_GitHub_Pages_Ready/dist
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
